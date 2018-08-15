@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   entry: './src/index.ts',
@@ -13,12 +14,10 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: {
-          loaders: {
-            scss: 'vue-style-loader!css-loader!sass-loader',
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-          },
-        },
+      },
+      {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader'],
       },
       {
         test: /\.tsx?$/,
@@ -31,10 +30,11 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue'],
+    extensions: ['.ts', '.js'],
     alias: {
       vue$: 'vue/dist/vue.esm.js',
     },
   },
   devtool: '#eval-source-map',
+  plugins: [new VueLoaderPlugin()],
 };
